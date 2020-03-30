@@ -72,11 +72,32 @@ void Evaluacion(){
             getline(cin,validacion);
         }
     }
+
     
     //Evaluar ganador y agregarlo a la lista
-    
-    //Por mientras agrego solo al primero
-    Ganadores[contador_ganadores] = prop[0].Nombre;
+    int longitud = sizeof(prop)/sizeof(prop[0]);
+    int max = prop[0].requerimientos;
+    int ubicacion = 0;
+    for (int j = 1;j < longitud;j++){
+        if (max < prop[j].requerimientos){
+            max = prop[j].requerimientos;
+            ubicacion = j;
+        }
+    }
+    //Obtengo el maximo primero, si existen de igual tamaño y no son el mismo
+    for (int j = 0;j < longitud;j++){
+        if (max == prop[j].requerimientos && ubicacion != j){
+            
+            //Si tienen mismos requerimientos cumplidos y diferente lugar evaluo costos
+            if (prop[ubicacion].costo > prop[j].costo){
+                max = prop[j].requerimientos;
+                ubicacion = j;
+            }
+        }
+    }
+
+    //Agrego ganador a la lista de ganadores
+    Ganadores[contador_ganadores] = prop[ubicacion].Nombre;
     contador_ganadores++;
 }
 
@@ -104,3 +125,4 @@ int main(){
     
     return 0;
 }
+
